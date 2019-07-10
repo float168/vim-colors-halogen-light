@@ -6,224 +6,259 @@
 
 
 "{{{ Init
-let g:colors_name = "<sfile>:t:r"
+"------------------------------------------------------------------------------
+
+let g:colors_name = '<sfile>:t:r'
 
 hi clear
-if exists("syntax_on")
-    syntax reset
+if exists('syntax_on')
+   syntax reset
 endif
 
-if ! exists("g:terminal_italics")
-    let g:terminal_italics = 0
+" This is light colorscheme
+set background=light
+
+if ! exists('g:terminal_italics')
+   let g:terminal_italics = 0
 endif
 
-if ! exists("g:spell_undercurl")
-    let g:spell_undercurl = 0
+if ! exists('g:spell_undercurl')
+   let g:spell_undercurl = 0
 endif
+
+"------------------------------------------------------------------------------
+"}}}
+
+"{{{ Helper
+"------------------------------------------------------------------------------
+
+" Highlight function
+function! s:hi(group, style)
+   if g:terminal_italics == 0
+      " If italics is not available, erase attribute
+      if has_key(a:style, 'attr') && a:style['attr'] == 'italic'
+         unlet a:style.attr
+      endif
+   endif
+
+   execute 'highlight' a:group
+   \ 'guifg='   (has_key(a:style, 'fg')   ? a:style.fg.gui   : 'NONE')
+   \ 'guibg='   (has_key(a:style, 'bg')   ? a:style.bg.gui   : 'NONE')
+   \ 'guisp='   (has_key(a:style, 'sp')   ? a:style.sp.gui   : 'NONE')
+   \ 'gui='     (has_key(a:style, 'attr') ? a:style.attr     : 'NONE')
+   \ 'ctermfg=' (has_key(a:style, 'fg')   ? a:style.fg.cterm : 'NONE')
+   \ 'ctermbg=' (has_key(a:style, 'bg')   ? a:style.bg.cterm : 'NONE')
+   \ 'cterm='   (has_key(a:style, 'attr') ? a:style.attr     : 'NONE')
+   \ 'term='    (has_key(a:style, 'attr') ? a:style.attr     : 'NONE')
+endfunction
+
+"------------------------------------------------------------------------------
 "}}}
 
 "{{{  Palette
-" Entities
-let s:black             = { "gui": "#171717", "cterm": "16"  }
-let s:white             = { "gui": "#EAE8E7", "cterm": "231" }
+"------------------------------------------------------------------------------
+" Reference: https://jonasjacek.github.io/colors/
 
-let s:gray              = { "gui": "#979391", "cterm": "247" }
+" Color entities
 
-let s:green             = { "gui": "#30B536", "cterm": "34"  }
-let s:pink              = { "gui": "#D36DD3", "cterm": "170" }
-let s:orange            = { "gui": "#FC923F", "cterm": "208" }
-let s:purple            = { "gui": "#B586E7", "cterm": "141" }
-let s:light_cyan        = { "gui": "#D7FFFF", "cterm": "195" }
-let s:dark_cyan         = { "gui": "#00AF87", "cterm": "36"  }
-let s:ultramarine       = { "gui": "#229EC0", "cterm": "38"  }
-let s:skyblue           = { "gui": "#34D0F1", "cterm": "45"  }
+let s:black        = {'gui': '#000000', 'cterm': '0'}
+let s:dark_gray    = {'gui': '#3a3a3a', 'cterm': '237'}
+let s:gray         = {'gui': '#767676', 'cterm': '243'}
+let s:light_gray   = {'gui': '#bcbcbc', 'cterm': '250'}
+let s:white_gray   = {'gui': '#eeeeee', 'cterm': '255'}
+let s:white        = {'gui': '#ffffff', 'cterm': '15'}
 
-let s:white_pink            = { "gui": "#FEF7FE", "cterm": "231" }
-let s:white_pink_deep       = { "gui": "#FEF0FE", "cterm": "255" }
-let s:black_green           = { "gui": "#053703", "cterm": "235" }
-let s:black_green_bright    = { "gui": "#074005", "cterm": "239" }
-let s:middle_gray           = { "gui": "#8a8a8a", "cterm": "245" }
+let s:dark_orange  = {'gui': '#d9372d', 'cterm': '160'}
+let s:light_orange = {'gui': '#eb5a7c', 'cterm': '204'}
 
-let s:light_gray        = { "gui": "#E1DCDA", "cterm": "253" }
-let s:light_green       = { "gui": "#B7EFA5", "cterm": "157" }
-let s:light_pink        = { "gui": "#FEDCFE", "cterm": "225" }
-let s:light_yellow      = { "gui": "#EDE682", "cterm": "228" }
-let s:light_red         = { "gui": "#EB5A7C", "cterm": "204" }
+let s:green        = {'gui': '#30b536', 'cterm': '34'}
+let s:light_green  = {'gui': '#b7efa5', 'cterm': '157'}
 
-let s:dark_gray         = { "gui": "#4D4A48", "cterm": "241" }
-let s:dark_green        = { "gui": "#09570A", "cterm": "22"  }
-let s:dark_yellow       = { "gui": "#BC922B", "cterm": "3"   }
-let s:dark_pink         = { "gui": "#B365A2", "cterm": "133" }
-let s:dark_red          = { "gui": "#D9372D", "cterm": "160" }
+let s:dark_cyan    = {'gui': '#00af87', 'cterm': '36'}
+let s:cyan         = {'gui': '#34d0f1', 'cterm': '45'}
+let s:light_cyan   = {'gui': '#d7ffff', 'cterm': '195'}
 
-" Aliases
-if &background == "light"
-    let s:norm          = s:black
-    let s:bg            = s:white_pink
-    let s:bg_subtle     = s:white_pink_deep
-    let s:gray_fg       = s:middle_gray
-    let s:green_fg      = s:green
-    let s:yellow_fg     = s:dark_yellow
-    let s:pink_fg       = s:dark_pink
-    let s:cyan_fg       = s:dark_cyan
-    let s:blue_fg       = s:ultramarine
-    let s:red_fg        = s:dark_red
-    let s:gray_bg       = s:light_gray
-    let s:green_bg      = s:light_green
-    let s:yellow_bg     = s:light_yellow
-    let s:pink_bg       = s:light_pink
-    let s:cyan_bg       = s:light_cyan
-    let s:blue_bg       = s:skyblue
-    let s:red_bg        = s:light_red
-endif
+let s:blue         = {'gui': '#005fff', 'cterm': '27'}
 
-if &background == "dark"
-    let s:norm          = s:white
-    let s:bg            = s:black_green
-    let s:bg_subtle     = s:black_green_bright
-    let s:gray_fg       = s:middle_gray
-    let s:green_fg      = s:light_green
-    let s:yellow_fg     = s:light_yellow
-    let s:pink_fg       = s:light_pink
-    let s:cyan_fg       = s:light_cyan
-    let s:blue_fg       = s:skyblue
-    let s:red_fg        = s:light_red
-    let s:gray_bg       = s:dark_gray
-    let s:green_bg      = s:green
-    let s:yellow_bg     = s:dark_yellow
-    let s:pink_bg       = s:pink
-    let s:cyan_bg       = s:dark_cyan
-    let s:blue_bg       = s:ultramarine
-    let s:red_bg        = s:dark_red
-endif
+let s:purple       = {'gui': '#b586e7', 'cterm': '141'}
+
+let s:dark_pink    = {'gui': '#b365a2', 'cterm': '133'}
+let s:pink         = {'gui': '#d36dd3', 'cterm': '170'}
+let s:light_pink   = {'gui': '#fedcfe', 'cterm': '225'}
+
+
+" Color Aliases
+
+let s:fg            = s:black
+let s:fg_gray       = s:gray
+let s:fg_orange     = s:dark_orange
+let s:fg_green      = s:green
+let s:fg_cyan       = s:dark_cyan
+let s:fg_blue       = s:blue
+let s:fg_purple     = s:purple
+let s:fg_pink       = s:dark_pink
+
+let s:bg            = s:white
+let s:bg_gray       = s:white_gray
+let s:bg_orange     = s:light_orange
+let s:bg_green      = s:light_green
+let s:bg_cyan       = s:light_cyan
+let s:bg_pink       = s:light_pink
+
+"------------------------------------------------------------------------------
 "}}}
 
-"{{{ Function
-function! s:hi(group, style)
-    if g:terminal_italics == 0
-        if has_key(a:style, "cterm") && a:style["cterm"] == "italic"
-            unlet a:style.cterm
-        endif
-        if has_key(a:style, "term") && a:style["term"] == "italic"
-            unlet a:style.term
-        endif
-    endif
-    execute "highlight" a:group
-    \   "guifg="   (has_key(a:style, "fg")    ? a:style.fg.gui   : "NONE")
-    \   "guibg="   (has_key(a:style, "bg")    ? a:style.bg.gui   : "NONE")
-    \   "guisp="   (has_key(a:style, "sp")    ? a:style.sp.gui   : "NONE")
-    \   "gui="     (has_key(a:style, "gui")   ? a:style.gui      : "NONE")
-    \   "ctermfg=" (has_key(a:style, "fg")    ? a:style.fg.cterm : "NONE")
-    \   "ctermbg=" (has_key(a:style, "bg")    ? a:style.bg.cterm : "NONE")
-    \   "cterm="   (has_key(a:style, "cterm") ? a:style.cterm    : "NONE")
-    \   "term="    (has_key(a:style, "term")  ? a:style.term     : "NONE")
-endfunction
+"{{{ Builtin Highlighting Group
+"------------------------------------------------------------------------------
+" Based on 'highlight-default' tag section of 'syntax.txt'
+" For more information, check by `:help syntax`
 
-if g:spell_undercurl == 1
-    let s:attr_un   = 'undercurl'
+call s:hi('Normal',      {'fg': s:fg, 'bg': s:bg})
+call s:hi('NormalNC',    {'fg': s:fg, 'bg': s:bg})
+call s:hi('NormalFloat', {'fg': s:fg, 'bg': s:bg})
+
+call s:hi('WhiteSpace', {'fg': s:fg_orange, 'attr': 'bold'})
+call s:hi('NonText',    {'fg': s:bg_cyan,   'attr': 'bold'})
+call s:hi('SpecialKey', {'fg': s:purple,    'attr': 'bold'})
+call s:hi('MatchParen', {'fg': s:fg_pink,   'attr': 'underline'})
+
+call s:hi('Conceal',   {'fg': s:fg_orange})
+call s:hi('Directory', {'fg': s:fg_blue, 'attr': 'bold'})
+
+call s:hi('DiffAdd',    {'bg': s:bg_green})
+call s:hi('DiffChange', {'bg': s:bg_cyan})
+call s:hi('DiffDelete', {'bg': s:bg_orange})
+call s:hi('DiffText',   {'attr': 'bold'})
+
+if has('gui_running')
+   call s:hi('SpellBad',   {'attr': 'undercurl', 'sp': s:bg_orange})
+   call s:hi('SpellCap',   {'attr': 'undercurl', 'sp': s:bg_pink})
+   call s:hi('SpellLocal', {'attr': 'undercurl', 'sp': s:bg_green})
+   call s:hi('SpellRare',  {'attr': 'undercurl', 'sp': s:bg_cyan})
 else
-    let s:attr_un   = 'underline'
+   call s:hi('SpellBad',   {'fg': s:fg_orange, 'attr': 'underline'})
+   call s:hi('SpellCap',   {'fg': s:fg_orange, 'attr': 'underline'})
+   call s:hi('SpellLocal', {'fg': s:fg_green,  'attr': 'underline'})
+   call s:hi('SpellRare',  {'fg': s:fg_blue,   'attr': 'underline'})
 endif
+
+call s:hi('Search',     {'fg': s:fg, 'bg': s:bg_pink})
+call s:hi('IncSearch',  {'attr': 'reverse'})
+call s:hi('Substitute', {'attr': 'reverse'})
+
+call s:hi('LineNr',       {'fg': s:gray})
+call s:hi('CursorLineNr', {'fg': s:fg_pink, 'attr': 'bold'})
+
+call s:hi('Cursor',       {})
+call s:hi('CursorIM',     {})
+call s:hi('CursorColumn', {})
+call s:hi('CursorLine',   {})
+call s:hi('TermCursor',   {'bg': s:bg_green})
+call s:hi('TermCursorNC', {'bg': s:bg_green})
+call s:hi('QuickFixLine', {'fg': s:purple, 'attr': 'bold'})
+
+call s:hi('ColorColumn', {'bg': s:bg_gray})
+
+call s:hi('Visual',    {'attr': 'reverse'})
+call s:hi('VisualNOS', {'attr': 'bold,underline'})
+
+call s:hi('Folded',     {'fg': s:fg_green, 'bg': s:bg_gray})
+call s:hi('FoldColumn', {'fg': s:fg_green, 'bg': s:bg_gray})
+
+call s:hi('SignColumn', {'fg': s:fg_green, 'bg': s:bg_gray})
+
+call s:hi('VertSplit', {'attr': 'reverse'})
+
+call s:hi('EndOfBuffer', {'bg': s:bg_gray})
+
+call s:hi('StatusLine',       {'fg': s:fg, 'bg': s:bg_green, 'attr': 'bold'})
+call s:hi('StatusLineNC',     {'fg': s:fg, 'bg': s:bg_gray})
+call s:hi('StatusLineTerm',   {'fg': s:fg, 'bg': s:bg_gray})
+call s:hi('StatusLineTermNC', {'fg': s:fg, 'bg': s:bg_gray})
+
+call s:hi('TabLine',     {'bg': s:bg_pink})
+call s:hi('TabLineFill', {'bg': s:bg_pink})
+call s:hi('TabLineSel',  {'bg': s:bg_pink})
+
+call s:hi('Title', {'fg': s:fg_pink, 'attr': 'bold'})
+
+call s:hi('MsgSeparator', {'fg': s:fg_pink,   'attr': 'bold'})
+call s:hi('ErrorMsg',     {'fg': s:fg_orange, 'attr': 'bold'})
+call s:hi('WarningMsg',   {'fg': s:fg_orange, 'attr': 'bold'})
+call s:hi('ModeMsg',      {'fg': s:fg_pink,   'attr': 'bold'})
+call s:hi('MoreMsg',      {'fg': s:fg_pink,   'attr': 'bold'})
+call s:hi('Question',     {'fg': s:purple,    'attr': 'bold'})
+
+call s:hi('Pmenu',      {'bg': s:bg_gray})
+call s:hi('PmenuSel',   {'bg': s:bg_pink})
+call s:hi('PmenuSbar',  {'bg': s:bg_gray})
+call s:hi('PmenuThumb', {'bg': s:bg_gray})
+call s:hi('WildMenu',   {'fg': s:fg, 'bg': s:bg_cyan})
+
+
+" GUI only
+
+call s:hi('Menu', {'fg': s:fg, 'bg': s:bg_cyan})
+
+call s:hi('Scrollbar', {'fg': s:fg, 'bg': s:bg_cyan})
+
+call s:hi('Tooltip', {'fg': s:fg, 'bg': s:bg_cyan})
+
+"------------------------------------------------------------------------------
 "}}}
 
-"{{{ Basic highlighting
-call s:hi("Normal",         {"fg": s:norm, "bg": s:bg})
-call s:hi("Cursor",         {})
-call s:hi("Comment",        {"fg": s:gray_fg, "gui": "italic", "cterm": "italic", "term": "italic"})
+"{{{ Common Hightlighting Group
+"------------------------------------------------------------------------------
+" Based on 'group-name' tag section of 'syntax.txt'
+" For more information, check by `:help syntax`
 
-call s:hi("Constant",       {"fg": s:pink_fg})
-hi! link String             Constant
-hi! link Character          Constant
-hi! link Number             Constant
-hi! link Boolean            Constant
-hi! link Float              Constant
+call s:hi('Comment', {'fg': s:fg_gray, 'attr': 'italic'})
 
-call s:hi("Identifier",     {"fg": s:red_fg})
-hi! link Function           Identifier
+call s:hi('Constant', {'fg': s:fg_pink})
+hi! link String    Constant
+hi! link Character Constant
+hi! link Number    Constant
+hi! link Boolean   Constant
+hi! link Float     Constant
 
-call s:hi("Statement",      {"fg": s:green_fg})
-hi! link Conditonal         Statement
-hi! link Repeat             Statement
-hi! link Label              Statement
-hi! link Operator           Statement
-hi! link Keyword            Statement
-hi! link Exception          Statement
+call s:hi('Identifier', {'fg': s:fg_orange})
+hi! link Function Identifier
 
-call s:hi("PreProc",        {"fg": s:blue_fg})
-hi! link Include            PreProc
-hi! link Define             PreProc
-hi! link Macro              PreProc
-hi! link PreCondit          PreProc
+call s:hi('Statement', {'fg': s:fg_green})
+hi! link Conditonal Statement
+hi! link Repeat     Statement
+hi! link Label      Statement
+hi! link Operator   Statement
+hi! link Keyword    Statement
+hi! link Exception  Statement
 
-call s:hi("Type",           {"fg": s:yellow_fg})
-hi! link StorageClass       Type
-hi! link Structure          Type
-hi! link Typedef            Type
+call s:hi('PreProc', {'fg': s:fg_blue})
+hi! link Include   PreProc
+hi! link Define    PreProc
+hi! link Macro     PreProc
+hi! link PreCondit PreProc
 
-call s:hi("Special",        {"fg": s:orange})
-hi! link SpecialChar        Special
-hi! link Tag                Special
-hi! link Delimiter          Special
-hi! link SpecialComment     Special
-hi! link Debug              Special
+call s:hi('Type', {'fg': s:fg_orange})
+hi! link StorageClass Type
+hi! link Structure    Type
+hi! link Typedef      Type
 
-call s:hi("Underlined",      {"gui": "underline", "cterm": "underline"})
-call s:hi("Ignore",          {"fg": s:bg_subtle})
-call s:hi("Error",           {"fg": s:white, "bg": s:red_fg , "gui": "bold", "cterm": "bold"})
-call s:hi("Todo",            {"bg": s:yellow_bg, "gui": "bold", "cterm": "bold"})
-"}}}
+call s:hi('Special', {'fg': s:fg_orange})
+hi! link SpecialChar    Special
+hi! link Tag            Special
+hi! link Delimiter      Special
+hi! link SpecialComment Special
+hi! link Debug          Special
 
-"{{{ Extended highlighting
-call s:hi("SpecialKey",     {"fg": s:purple, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("NonText",        {"fg": s:cyan_bg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("Directory",      {"fg": s:blue_fg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("ErrorMsg",       {"fg": s:red_fg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("IncSearch",      {"gui": "reverse", "cterm": "reverse", "term": "reverse"})
-call s:hi("Search",         {"fg": s:norm, "bg": s:pink_bg})
-call s:hi("MoreMsg",        {"fg": s:pink_fg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("ModeMsg",        {"fg": s:pink_fg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("LineNr",         {"fg": s:gray})
-call s:hi("CursorLineNr",   {"fg": s:pink_fg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("Question",       {"fg": s:purple, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("StatusLine",     {"fg": s:norm, "bg": s:green_bg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("StatusLineNC",   {"fg": s:norm, "bg": s:gray_bg})
-call s:hi("Conceal",        {"fg": s:yellow_fg})
-call s:hi("VertSplit",      {"gui": "reverse", "cterm": "reverse", "term": "reverse"})
-call s:hi("Title",          {"fg": s:pink_fg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("Visual",         {"gui": "reverse", "cterm": "reverse", "term": "reverse"})
-call s:hi("VisualNOS",      {"gui": "bold,underline", "cterm": "bold,underline", "term": "bold,underline"})
-call s:hi("WarningMsg",     {"fg": s:orange, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("WildMenu",       {"fg": s:norm, "bg": s:blue_bg})
-call s:hi("Folded",         {"fg": s:green_fg, "bg": s:gray_bg})
-call s:hi("FoldColumn",     {"fg": s:green_fg, "bg": s:gray_bg})
-call s:hi("DiffAdd",        {"bg": s:green_bg})
-call s:hi("DiffChange",     {"bg": s:yellow_bg})
-call s:hi("DiffDelete",     {"bg": s:red_bg})
-call s:hi("DiffText",       {"bg": s:blue_bg, "gui": "bold", "cterm": "bold", "term": "bold"})
-call s:hi("SignColumn",     {"fg": s:green_fg, "bg": s:gray})
-if has("gui_running")
-    call s:hi("SpellBad",       {"gui": s:attr_un, "sp": s:red_bg})
-    call s:hi("SpellCap",       {"gui": s:attr_un, "sp": s:yellow_bg})
-    call s:hi("SpellRare",      {"gui": s:attr_un, "sp": s:blue_bg})
-    call s:hi("SpellLocal",     {"gui": s:attr_un, "sp": s:green_bg})
-else
-    call s:hi("SpellBad",       {"cterm": s:attr_un, "fg": s:red_fg})
-    call s:hi("SpellCap",       {"cterm": s:attr_un, "fg": s:yellow_fg})
-    call s:hi("SpellRare",      {"cterm": s:attr_un, "fg": s:blue_fg})
-    call s:hi("SpellLocal",     {"cterm": s:attr_un, "fg": s:green_fg})
-endif
-call s:hi("Pmenu",          {"bg": s:gray_bg})
-call s:hi("PmenuSel",       {"bg": s:pink_bg})
-call s:hi("PmenuSbar",      {"bg": s:gray_bg})
-call s:hi("PmenuThumb",     {"bg": s:gray_bg})
-call s:hi("TabLine",        {"bg": s:bg_subtle})
-call s:hi("TabLineSel",     {"bg": s:pink_bg})
-call s:hi("TabLineFill",    {"bg": s:bg_subtle})
-call s:hi("CursorColumn",   {"bg": s:yellow_fg})
-call s:hi("CursorLine",     {"bg": s:bg_subtle})
-call s:hi("ColorColumn",    {"bg": s:bg_subtle})
-call s:hi("MatchParen",     {"fg": s:pink_fg, "gui": "underline", "cterm": "underline"})
-call s:hi("qfLineNr",       {"fg": s:gray})
+call s:hi('Underlined', {'attr': 'underline'})
+
+call s:hi('Ignore', {'fg': s:bg_pink})
+
+call s:hi('Error', {'fg': s:white, 'bg': s:fg_orange , 'attr': 'bold'})
+
+call s:hi('Todo', {'bg': s:bg_pink, 'attr': 'bold'})
+
+"------------------------------------------------------------------------------
 "}}}
 
 " vim: set foldmethod=marker:
