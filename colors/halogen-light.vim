@@ -113,9 +113,9 @@ let s:bg_pink       = s:light_pink
 " Based on 'highlight-default' tag section of 'syntax.txt'
 " For more information, check by `:help syntax`
 
-call s:hi('Normal',      {'fg': s:fg, 'bg': s:bg})
-call s:hi('NormalNC',    {'fg': s:fg, 'bg': s:bg})
-call s:hi('NormalFloat', {'fg': s:fg, 'bg': s:bg})
+call s:hi('Normal',      {'fg': s:fg})
+call s:hi('NormalNC',    {'fg': s:fg})
+call s:hi('NormalFloat', {'fg': s:fg})
 
 call s:hi('WhiteSpace', {'fg': s:fg_orange, 'attr': 'bold'})
 call s:hi('NonText',    {'fg': s:bg_cyan,   'attr': 'bold'})
