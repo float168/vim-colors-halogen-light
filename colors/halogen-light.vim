@@ -119,7 +119,7 @@ call s:hi('NormalFloat', {'fg': s:fg})
 
 call s:hi('WhiteSpace', {'fg': s:fg_orange, 'attr': 'bold'})
 call s:hi('NonText',    {'fg': s:bg_cyan,   'attr': 'bold'})
-call s:hi('SpecialKey', {'fg': s:purple,    'attr': 'bold'})
+call s:hi('SpecialKey', {'fg': s:fg_purple, 'attr': 'bold'})
 call s:hi('MatchParen', {'fg': s:fg_pink,   'attr': 'underline'})
 
 call s:hi('Conceal',   {'fg': s:fg_orange})
@@ -146,7 +146,7 @@ call s:hi('Search',     {'fg': s:fg, 'bg': s:bg_pink})
 call s:hi('IncSearch',  {'attr': 'reverse'})
 call s:hi('Substitute', {'attr': 'reverse'})
 
-call s:hi('LineNr',       {'fg': s:gray})
+call s:hi('LineNr',       {'fg': s:fg_gray})
 call s:hi('CursorLineNr', {'fg': s:fg_pink, 'attr': 'bold'})
 
 call s:hi('Cursor',       {})
@@ -187,7 +187,7 @@ call s:hi('ErrorMsg',     {'fg': s:fg_orange, 'attr': 'bold'})
 call s:hi('WarningMsg',   {'fg': s:fg_orange, 'attr': 'bold'})
 call s:hi('ModeMsg',      {'fg': s:fg_pink,   'attr': 'bold'})
 call s:hi('MoreMsg',      {'fg': s:fg_pink,   'attr': 'bold'})
-call s:hi('Question',     {'fg': s:purple,    'attr': 'bold'})
+call s:hi('Question',     {'fg': s:fg_purple, 'attr': 'bold'})
 
 call s:hi('Pmenu',      {'bg': s:bg_gray})
 call s:hi('PmenuSel',   {'bg': s:bg_pink})
