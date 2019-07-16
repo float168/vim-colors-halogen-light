@@ -243,7 +243,7 @@ hi! link StorageClass Type
 hi! link Structure    Type
 hi! link Typedef      Type
 
-call s:hi('Special', {'fg': s:fg_orange})
+call s:hi('Special', {'fg': s:fg_cyan})
 hi! link SpecialChar    Special
 hi! link Tag            Special
 hi! link Delimiter      Special
@@ -252,7 +252,7 @@ hi! link Debug          Special
 
 call s:hi('Underlined', {'attr': 'underline'})
 
-call s:hi('Ignore', {'fg': s:bg_pink})
+call s:hi('Ignore', {'fg': s:bg_gray})
 
 call s:hi('Error', {'fg': s:white, 'bg': s:fg_orange , 'attr': 'bold'})
 
