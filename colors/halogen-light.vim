@@ -188,12 +188,12 @@ call s:hi('WarningMsg',   {'fg': s:fg_orange, 'attr': 'bold'})
 call s:hi('ModeMsg',      {'fg': s:fg_pink,   'attr': 'bold'})
 call s:hi('MoreMsg',      {'fg': s:fg_pink,   'attr': 'bold'})
 call s:hi('Question',     {'fg': s:fg_purple, 'attr': 'bold'})
+call s:hi('WildMenu',     {'fg': s:fg, 'bg': s:bg_pink})
 
 call s:hi('Pmenu',      {'bg': s:bg_gray})
 call s:hi('PmenuSel',   {'bg': s:bg_pink})
 call s:hi('PmenuSbar',  {'bg': s:bg_gray})
 call s:hi('PmenuThumb', {'bg': s:bg_gray})
-call s:hi('WildMenu',   {'fg': s:fg, 'bg': s:bg_cyan})
 
 
 " GUI only
