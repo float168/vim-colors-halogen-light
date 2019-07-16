@@ -153,9 +153,9 @@ call s:hi('Cursor',       {})
 call s:hi('CursorIM',     {})
 call s:hi('CursorColumn', {})
 call s:hi('CursorLine',   {})
-call s:hi('TermCursor',   {'bg': s:bg_green})
-call s:hi('TermCursorNC', {'bg': s:bg_green})
-call s:hi('QuickFixLine', {'fg': s:purple, 'attr': 'bold'})
+call s:hi('TermCursor',   {})
+call s:hi('TermCursorNC', {})
+call s:hi('QuickFixLine', {'fg': s:fg_purple, 'attr': 'bold'})
 
 call s:hi('ColorColumn', {'bg': s:bg_gray})
 
