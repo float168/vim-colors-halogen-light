@@ -89,21 +89,22 @@ let s:light_pink   = {'gui': '#fedcfe', 'cterm': '225'}
 
 " Color Aliases
 
-let s:fg            = s:black
-let s:fg_gray       = s:gray
-let s:fg_orange     = s:dark_orange
-let s:fg_green      = s:green
-let s:fg_cyan       = s:dark_cyan
-let s:fg_blue       = s:blue
-let s:fg_purple     = s:purple
-let s:fg_pink       = s:dark_pink
+let s:fg             = s:black
+let s:fg_gray        = s:gray
+let s:fg_dimmed_gray = s:light_gray
+let s:fg_orange      = s:dark_orange
+let s:fg_green       = s:green
+let s:fg_cyan        = s:dark_cyan
+let s:fg_blue        = s:blue
+let s:fg_purple      = s:purple
+let s:fg_pink        = s:dark_pink
 
-let s:bg            = s:white
-let s:bg_gray       = s:white_gray
-let s:bg_orange     = s:light_orange
-let s:bg_green      = s:light_green
-let s:bg_cyan       = s:light_cyan
-let s:bg_pink       = s:light_pink
+let s:bg             = s:white
+let s:bg_gray        = s:white_gray
+let s:bg_orange      = s:light_orange
+let s:bg_green       = s:light_green
+let s:bg_cyan        = s:light_cyan
+let s:bg_pink        = s:light_pink
 
 "------------------------------------------------------------------------------
 "}}}
