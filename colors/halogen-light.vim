@@ -177,9 +177,9 @@ call s:hi('StatusLineNC',     {'fg': s:fg, 'bg': s:bg_gray})
 call s:hi('StatusLineTerm',   {'fg': s:fg, 'bg': s:bg_gray})
 call s:hi('StatusLineTermNC', {'fg': s:fg, 'bg': s:bg_gray})
 
-call s:hi('TabLine',     {'bg': s:bg_pink})
-call s:hi('TabLineFill', {'bg': s:bg_pink})
-call s:hi('TabLineSel',  {'bg': s:bg_pink})
+call s:hi('TabLine',     {'bg': s:fg_dimmed_gray})
+call s:hi('TabLineFill', {'bg': s:bg_gray})
+call s:hi('TabLineSel',  {'fg': s:bg, 'bg': s:bg_orange, 'attr': 'bold'})
 
 call s:hi('Title', {'fg': s:fg_pink, 'attr': 'bold'})
 
